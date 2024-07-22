@@ -18,9 +18,9 @@ output "target_group_arn" {
   value = aws_lb_target_group.target_group.arn
 }
 
-output "fully_qualified_domain_name" {
-  value = var.create_route53_entry ? var.domain_name : aws_lb.ecs_alb.dns_name
-}
+# output "fully_qualified_domain_name" {
+#   value = var.create_route53_entry ? var.domain_name : aws_lb.ecs_alb.dns_name
+# }
 
 output "efs_volume_dns_name" {
   value = aws_efs_file_system.ecs_service_storage.dns_name
