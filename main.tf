@@ -230,34 +230,35 @@ resource "aws_lb_target_group" "target_group" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 # Define a S3 bucket for the ALB logs
-resource "aws_s3_bucket" "alb_logs_s3_bucket" {
-  bucket = "${var.service_name}-alb-logs"
-  acl    = "log-delivery-write"
+# resource "aws_s3_bucket" "alb_logs_s3_bucket" {
+#   bucket = "${var.service_name}-alb-logs"
+#   acl    = "log-delivery-write"
 
-  versioning {
-    enabled = true
-  }
-}
-resource "aws_s3_bucket_policy" "alb_logs_s3_bucket" {
-  bucket = aws_s3_bucket.alb_logs_s3_bucket.id
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "enable_load_balancer_to_write_logs",
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "delivery.logs.amazonaws.com",
-        "AWS": "arn:aws:iam::127311923021:root"
-      },
-      "Action": "s3:PutObject",
-      "Resource": "arn:aws:s3:::${aws_s3_bucket.alb_logs_s3_bucket.bucket}/*"
-    }
-  ]
-}
-POLICY
-}
+#   versioning {
+#     enabled = true
+#   }
+# }
+
+# resource "aws_s3_bucket_policy" "alb_logs_s3_bucket" {
+#   bucket = aws_s3_bucket.alb_logs_s3_bucket.id
+#   policy = <<POLICY
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Sid": "enable_load_balancer_to_write_logs",
+#       "Effect": "Allow",
+#       "Principal": {
+#         "Service": "delivery.logs.amazonaws.com",
+#         "AWS": "arn:aws:iam::127311923021:root"
+#       },
+#       "Action": "s3:PutObject",
+#       "Resource": "arn:aws:s3:::${aws_s3_bucket.alb_logs_s3_bucket.bucket}/*"
+#     }
+#   ]
+# }
+# POLICY
+# }
 
 # Create the actual ALB
 resource "aws_lb" "ecs_alb" {
