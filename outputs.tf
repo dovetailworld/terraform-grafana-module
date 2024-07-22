@@ -25,3 +25,11 @@ output "target_group_arn" {
 output "efs_volume_dns_name" {
   value = aws_efs_file_system.ecs_service_storage.dns_name
 }
+
+output "elb_dns_name" {
+  value = aws_lb.ecs_alb.dns_name
+}
+
+output "elb_zone_id" {
+  value = aws_lb.ecs_alb.zone_id
+}
