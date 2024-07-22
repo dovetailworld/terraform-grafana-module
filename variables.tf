@@ -64,7 +64,7 @@ variable "desired_number_of_tasks" {
 
 variable "allow_inbound_from_cidr_blocks" {
   description = "A list of IP CIDR blocks allowed to access the service"
-  type        = list
+  type        = list(any)
 }
 
 # VPC information
@@ -76,12 +76,12 @@ variable "vpc_id" {
 
 variable "private_subnet_ids" {
   description = "The list of private subnet IDs"
-  type        = list
+  type        = list(any)
 }
 
 variable "public_subnet_ids" {
   description = "The list of public subnet IDs"
-  type        = list
+  type        = list(any)
 }
 
 variable "ssl_cert_arn" {
@@ -165,4 +165,3 @@ variable "health_check_matcher" {
   type        = string
   default     = "200"
 }
-
