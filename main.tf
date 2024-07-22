@@ -13,7 +13,7 @@ resource "aws_efs_file_system" "ecs_service_storage" {
 }
 
 resource "aws_efs_mount_target" "ecs_service_storage" {
-  count           = length(var.private_subnet_ids)
+  count = length(var.private_subnet_ids)
 
   file_system_id  = aws_efs_file_system.ecs_service_storage.id
   subnet_id       = var.private_subnet_ids[count.index]
@@ -48,41 +48,55 @@ data "aws_iam_policy_document" "ecs_task" {
 
 # Create the IAM roles for the ECS Task
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name                 = "${var.service_name}-task-execution-role"
-  assume_role_policy   = data.aws_iam_policy_document.ecs_task.json
+  name               = "${var.service_name}-task-execution-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task.json
 }
 resource "aws_iam_role" "ecs_task_role" {
-  name                 = "${var.service_name}-task-role"
-  assume_role_policy   = data.aws_iam_policy_document.ecs_task.json
+  name               = "${var.service_name}-task-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task.json
 }
 
 # This template_file defines the Docker containers we want to run in our ECS Task
-data "template_file" "ecs_task_container_definitions" {
-  template = file("${path.module}/container-definition/container-definition.json")
+# data "template_file" "ecs_task_container_definitions" {
+#   template = file("${path.module}/container-definition/container-definition.json")
 
-  vars = {
-    aws_region = var.aws_region
-    container_name = var.service_name
-    service_name = var.service_name
-    image = var.image
-    version = var.image_version
+#   vars = {
+#     aws_region = var.aws_region
+#     container_name = var.service_name
+#     service_name = var.service_name
+#     image = var.image
+#     version = var.image_version
+#     cloudwatch_log_group_name = var.cloudwatch_log_group_name
+#     cpu = var.cpu
+#     memory = var.memory
+#     container_port = var.container_port
+#   }
+# }
+
+locals {
+  container_definitions = templatefile(file("${path.module}/container-definition/container-definition.json"), {
+    aws_region                = var.aws_region
+    container_name            = var.service_name
+    service_name              = var.service_name
+    image                     = var.image
+    version                   = var.image_version
     cloudwatch_log_group_name = var.cloudwatch_log_group_name
-    cpu = var.cpu
-    memory = var.memory
-    container_port = var.container_port
-  }
+    cpu                       = var.cpu
+    memory                    = var.memory
+    container_port            = var.container_port
+  })
 }
 
 # Create the actual task definition by passing it the container definition from above
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  family                    = var.service_name
-  container_definitions     = data.template_file.ecs_task_container_definitions.rendered
-  network_mode              = "awsvpc"
-  cpu                       = var.cpu
-  memory                    = var.memory
-  requires_compatibilities  = ["FARGATE", "EC2"]
-  task_role_arn             = aws_iam_role.ecs_task_role.arn
-  execution_role_arn        = aws_iam_role.ecs_task_execution_role.arn
+  family                   = var.service_name
+  container_definitions    = local.container_definitions
+  network_mode             = "awsvpc"
+  cpu                      = var.cpu
+  memory                   = var.memory
+  requires_compatibilities = ["FARGATE", "EC2"]
+  task_role_arn            = aws_iam_role.ecs_task_role.arn
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
   volume {
     name = "grafana-db"
@@ -162,16 +176,16 @@ resource "aws_iam_role_policy_attachment" "task_execution_ssm_ro" {
 
 # Create the ECS service
 resource "aws_ecs_service" "ecs_service" {
-  name                                = var.service_name
-  cluster                             = var.ecs_cluster
-  task_definition                     = aws_ecs_task_definition.ecs_task_definition.arn
-  desired_count                       = var.desired_number_of_tasks
-  deployment_maximum_percent          = var.deployment_maximum_percent
-  deployment_minimum_healthy_percent  = var.deployment_minimum_healthy_percent
-  health_check_grace_period_seconds   = var.health_check_grace_period_seconds
-  launch_type                         = "FARGATE"
-  platform_version                    = var.platform_version
-  depends_on                          = [aws_lb_target_group.target_group]
+  name                               = var.service_name
+  cluster                            = var.ecs_cluster
+  task_definition                    = aws_ecs_task_definition.ecs_task_definition.arn
+  desired_count                      = var.desired_number_of_tasks
+  deployment_maximum_percent         = var.deployment_maximum_percent
+  deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
+  health_check_grace_period_seconds  = var.health_check_grace_period_seconds
+  launch_type                        = "FARGATE"
+  platform_version                   = var.platform_version
+  depends_on                         = [aws_lb_target_group.target_group]
 
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.arn
@@ -180,9 +194,9 @@ resource "aws_ecs_service" "ecs_service" {
   }
 
   network_configuration {
-    subnets             = var.private_subnet_ids
-    security_groups     = [aws_security_group.ecs_service_security_group.id]
-    assign_public_ip    = var.assign_public_ip
+    subnets          = var.private_subnet_ids
+    security_groups  = [aws_security_group.ecs_service_security_group.id]
+    assign_public_ip = var.assign_public_ip
   }
 }
 
@@ -191,12 +205,12 @@ resource "aws_ecs_service" "ecs_service" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_lb_target_group" "target_group" {
-  name                  = var.service_name
-  port                  = var.container_port
-  protocol              = var.alb_target_group_protocol
-  target_type           = "ip"
-  vpc_id                = var.vpc_id
-  deregistration_delay  = var.alb_target_group_deregistration_delay
+  name                 = var.service_name
+  port                 = var.container_port
+  protocol             = var.alb_target_group_protocol
+  target_type          = "ip"
+  vpc_id               = var.vpc_id
+  deregistration_delay = var.alb_target_group_deregistration_delay
 
   health_check {
     enabled             = true
@@ -247,13 +261,13 @@ POLICY
 
 # Create the actual ALB
 resource "aws_lb" "ecs_alb" {
-  name                              = "${var.service_name}-alb"
-  internal                          = false
-  load_balancer_type                = "application"
-  security_groups                   = ["${aws_security_group.alb_sg.id}"]
-  subnets                           = var.public_subnet_ids
-  enable_cross_zone_load_balancing  = true
-  enable_http2                      = true
+  name                             = "${var.service_name}-alb"
+  internal                         = false
+  load_balancer_type               = "application"
+  security_groups                  = [aws_security_group.alb_sg.id]
+  subnets                          = var.public_subnet_ids
+  enable_cross_zone_load_balancing = true
+  enable_http2                     = true
 
   access_logs {
     bucket  = aws_s3_bucket.alb_logs_s3_bucket.bucket
