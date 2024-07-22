@@ -171,3 +171,11 @@ variable "health_check_matcher" {
   type        = string
   default     = "200"
 }
+
+# fargate options
+
+variable "assign_public_ip" {
+  description = "Assign a public IP address to the ENI (Fargate launch type only)."
+  type = bool
+  default = false 
+}
