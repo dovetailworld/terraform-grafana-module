@@ -270,10 +270,10 @@ resource "aws_lb" "ecs_alb" {
   enable_cross_zone_load_balancing = true
   enable_http2                     = true
 
-  access_logs {
-    bucket  = aws_s3_bucket.alb_logs_s3_bucket.bucket
-    enabled = true
-  }
+  # access_logs {
+  #   bucket  = aws_s3_bucket.alb_logs_s3_bucket.bucket
+  #   enabled = true
+  # }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
