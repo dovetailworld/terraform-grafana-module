@@ -74,7 +74,7 @@ resource "aws_iam_role" "ecs_task_role" {
 # }
 
 locals {
-  container_definitions = templatefile(file("${path.module}/container-definition/container-definition.json"), {
+  container_definitions = templatefile("${path.module}/container-definition/container-definition.json", {
     aws_region                = var.aws_region
     container_name            = var.service_name
     service_name              = var.service_name
