@@ -136,6 +136,12 @@ variable "health_check_interval" {
   default     = 30
 }
 
+variable "health_check_path" {
+  description = "Destination for the health check request. Required for HTTP/HTTPS ALB and HTTP NLB. Only applies to HTTP/HTTPS."
+  type = string
+  default = "/"
+}
+
 variable "health_check_protocol" {
   description = "The protocol the ALB uses when performing health checks on Targets. Must be one of HTTP and HTTPS."
   type        = string
