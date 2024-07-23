@@ -80,23 +80,6 @@ resource "aws_iam_role" "ecs_task_role" {
   assume_role_policy = data.aws_iam_policy_document.ecs_task.json
 }
 
-# This template_file defines the Docker containers we want to run in our ECS Task
-# data "template_file" "ecs_task_container_definitions" {
-#   template = file("${path.module}/container-definition/container-definition.json")
-
-#   vars = {
-#     aws_region = var.aws_region
-#     container_name = var.service_name
-#     service_name = var.service_name
-#     image = var.image
-#     version = var.image_version
-#     cloudwatch_log_group_name = var.cloudwatch_log_group_name
-#     cpu = var.cpu
-#     memory = var.memory
-#     container_port = var.container_port
-#   }
-# }
-
 locals {
   container_definitions = templatefile("${path.module}/container-definition/container-definition.json", {
     aws_region                = var.aws_region
