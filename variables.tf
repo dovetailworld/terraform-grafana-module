@@ -8,63 +8,9 @@ variable "aws_region" {
   type        = string
 }
 
-variable "service_name" {
-  description = "The name of the ECS service (e.g. my-service-stage)"
-  type        = string
-}
-
-variable "platform_version" {
-  description = "The ECS Fargate version to run Grafana on"
-  type        = string
-}
-
 variable "ecs_cluster" {
   description = "The ECS cluster to run the service on"
   type        = string
-}
-
-# Docker image configuration
-
-variable "image" {
-  description = "The Docker image to run"
-  type        = string
-}
-
-variable "image_version" {
-  description = "Which version (AKA tag) of the var.image Docker image to deploy (e.g. 0.57)"
-  type        = string
-}
-
-variable "container_port" {
-  description = "The port number on which this service's Docker container accepts incoming HTTP or HTTPS traffic."
-  type        = number
-}
-
-variable "cloudwatch_log_group_name" {
-  description = "The name of the cloudwatch log group where the application will send logs to"
-  type        = string
-}
-
-# Runtime properties of this ECS Service in the ECS Cluster
-
-variable "cpu" {
-  description = "The number of CPU units to allocate to the ECS Service."
-  type        = number
-}
-
-variable "memory" {
-  description = "How much memory, in MB, to give the ECS Service."
-  type        = number
-}
-
-variable "desired_number_of_tasks" {
-  description = "How many instances of the ECS Service to run across the ECS cluster"
-  type        = number
-}
-
-variable "allow_inbound_from_cidr_blocks" {
-  description = "A list of IP CIDR blocks allowed to access the service"
-  type        = list(any)
 }
 
 # VPC information
@@ -93,6 +39,70 @@ variable "ssl_cert_arn" {
 # OPTIONAL MODULE PARAMETERS
 # These variables have defaults, but may be overridden by the operator.
 # ---------------------------------------------------------------------------------------------------------------------
+
+variable "service_name" {
+  description = "The name of the ECS service (e.g. my-service-stage)"
+  type        = string
+  default     = "grafana"
+}
+
+variable "platform_version" {
+  description = "The ECS Fargate version to run Grafana on"
+  type        = string
+  default     = "LATEST"
+}
+
+# Docker image configuration
+
+variable "image" {
+  description = "The Docker image to run"
+  type        = string
+  default     = "grafana/grafana-oss"
+}
+
+variable "image_version" {
+  description = "Which version (AKA tag) of the var.image Docker image to deploy (e.g. 0.57)"
+  type        = string
+  default     = "10.4.5"
+}
+
+variable "container_port" {
+  description = "The port number on which this service's Docker container accepts incoming HTTP or HTTPS traffic."
+  type        = number
+  default     = 3000
+}
+
+variable "cloudwatch_log_group_name" {
+  description = "The name of the cloudwatch log group where the application will send logs to"
+  type        = string
+  default     = "/ecs/grafana"
+}
+
+# Runtime properties of this ECS Service in the ECS Cluster
+
+variable "cpu" {
+  description = "The number of CPU units to allocate to the ECS Service."
+  type        = number
+  default     = 1024
+}
+
+variable "memory" {
+  description = "How much memory, in MB, to give the ECS Service."
+  type        = number
+  default     = 2048
+}
+
+variable "desired_number_of_tasks" {
+  description = "How many instances of the ECS Service to run across the ECS cluster"
+  type        = number
+  default     = 1
+}
+
+variable "allow_inbound_from_cidr_blocks" {
+  description = "A list of IP CIDR blocks allowed to access the service"
+  type        = list(any)
+  default     = ["0.0.0.0/0"]
+}
 
 variable "health_check_grace_period_seconds" {
   description = "Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 1800. Only valid for services configured to use load balancers."
