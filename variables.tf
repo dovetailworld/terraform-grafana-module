@@ -139,7 +139,7 @@ variable "health_check_interval" {
 variable "health_check_path" {
   description = "Destination for the health check request. Required for HTTP/HTTPS ALB and HTTP NLB. Only applies to HTTP/HTTPS."
   type        = string
-  default     = "/"
+  default     = "/login"
 }
 
 variable "health_check_protocol" {
