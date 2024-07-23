@@ -1,7 +1,3 @@
-/*
-Here we define the security related resources for the module
-*/
-
 # Security group for the EFS share and mount target
 resource "aws_security_group" "efs_sg" {
   name        = "${var.service_name}-efs-sg"

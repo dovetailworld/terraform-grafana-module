@@ -1,19 +1,17 @@
-#---------------------------------------------------------------------------------------------------------------------
-# REQUIRED MODULE PARAMETERS
-# These variables must be passed in by the operator.
-# ---------------------------------------------------------------------------------------------------------------------
-
 variable "aws_region" {
   description = "The AWS region in which the ECS Service will be created."
   type        = string
+}
+
+variable "domain" {
+  description = "The root domain to use for Route53 and ACM."
+  type = string 
 }
 
 variable "ecs_cluster" {
   description = "The ECS cluster to run the service on"
   type        = string
 }
-
-# VPC information
 
 variable "vpc_id" {
   description = "The VPC ID in which to deploy the resources"
@@ -30,16 +28,6 @@ variable "public_subnet_ids" {
   type        = list(any)
 }
 
-variable "ssl_cert_arn" {
-  description = "The ARN of the SSL certificate to use on the ALB"
-  type        = string
-}
-
-# ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL MODULE PARAMETERS
-# These variables have defaults, but may be overridden by the operator.
-# ---------------------------------------------------------------------------------------------------------------------
-
 variable "service_name" {
   description = "The name of the ECS service (e.g. my-service-stage)"
   type        = string
@@ -51,8 +39,6 @@ variable "platform_version" {
   type        = string
   default     = "LATEST"
 }
-
-# Docker image configuration
 
 variable "image" {
   description = "The Docker image to run"
@@ -77,8 +63,6 @@ variable "cloudwatch_log_group_name" {
   type        = string
   default     = "/ecs/grafana"
 }
-
-# Runtime properties of this ECS Service in the ECS Cluster
 
 variable "cpu" {
   description = "The number of CPU units to allocate to the ECS Service."
@@ -110,8 +94,6 @@ variable "health_check_grace_period_seconds" {
   default     = 15
 }
 
-# ALB options
-
 variable "alb_target_group_protocol" {
   description = "The network protocol to use for routing traffic from the ALB to the Targets. Must be one of HTTP or HTTPS. Note that if HTTPS is used, per https://goo.gl/NiOVx7, the ALB will use the security settings from ELBSecurityPolicy2015-05."
   type        = string
@@ -124,8 +106,6 @@ variable "alb_target_group_deregistration_delay" {
   default     = 15
 }
 
-# Deployment Options
-
 variable "deployment_maximum_percent" {
   description = "The upper limit, as a percentage of var.desired_number_of_tasks, of the number of running ECS Tasks that can be running in a service during a deployment. Setting this to more than 100 means that during deployment, ECS will deploy new instances of a Task before undeploying the old ones."
   type        = number
@@ -137,8 +117,6 @@ variable "deployment_minimum_healthy_percent" {
   type        = number
   default     = 100
 }
-
-# Health check options
 
 variable "health_check_interval" {
   description = "The approximate amount of time, in seconds, between health checks of an individual Target. Minimum value 5 seconds, Maximum value 300 seconds."
@@ -181,8 +159,6 @@ variable "health_check_matcher" {
   type        = string
   default     = "200"
 }
-
-# fargate options
 
 variable "assign_public_ip" {
   description = "Assign a public IP address to the ENI (Fargate launch type only)."
