@@ -38,6 +38,10 @@ resource "aws_efs_access_point" "ecs_service_storage" {
 
     path = "/grafana"
   }
+
+  tags = {
+    name = "grafana-user"
+  }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
