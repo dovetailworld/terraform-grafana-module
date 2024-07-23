@@ -57,7 +57,7 @@ resource "aws_ecs_task_definition" "this" {
 # Create the ECS service
 resource "aws_ecs_service" "this" {
   name                               = var.service_name
-  cluster                            = aws_ecs_cluster.this.name
+  cluster                            = aws_ecs_cluster.this.arn
   task_definition                    = aws_ecs_task_definition.this.arn
   desired_count                      = var.desired_number_of_tasks
   deployment_maximum_percent         = var.deployment_maximum_percent
