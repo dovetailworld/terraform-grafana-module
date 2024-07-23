@@ -20,6 +20,26 @@ resource "aws_efs_mount_target" "ecs_service_storage" {
   security_groups = [aws_security_group.efs_sg.id]
 }
 
+resource "aws_efs_access_point" "ecs_service_storage" {
+  file_system_id = aws_efs_file_system.ecs_service_storage.id
+
+  posix_user {
+    gid = 0
+    uid = 472
+  }
+
+  root_directory {
+
+    creation_info {
+      owner_gid = 0
+      owner_uid = 472
+      permissions = 0755
+    }
+
+    path = "/grafana"
+  }
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # CONFIGURE THE CLOUDWATCH LOG GROUP FOR THIS SERVICE
 # ---------------------------------------------------------------------------------------------------------------------
