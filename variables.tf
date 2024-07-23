@@ -8,11 +8,6 @@ variable "domain" {
   type = string 
 }
 
-variable "ecs_cluster" {
-  description = "The ECS cluster to run the service on"
-  type        = string
-}
-
 variable "vpc_id" {
   description = "The VPC ID in which to deploy the resources"
   type        = string
