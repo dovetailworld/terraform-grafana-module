@@ -43,11 +43,11 @@ resource "aws_ecs_task_definition" "this" {
     name = "grafana-db"
 
     efs_volume_configuration {
-      file_system_id     = aws_efs_file_system.ecs_service_storage.id
+      file_system_id     = aws_efs_file_system.this.id
       root_directory     = "/"
       transit_encryption = "ENABLED"
       authorization_config {
-        access_point_id = aws_efs_access_point.ecs_service_storage.id
+        access_point_id = aws_efs_access_point.this.id
         iam             = "DISABLED"
       }
     }
