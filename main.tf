@@ -124,7 +124,12 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.ecs_service_storage.id
-      root_directory = "/grafana"
+      root_directory = "/"
+      transit_encryption = "ENABLED"
+      authorization_config {
+        access_point_id = aws_efs_access_point.ecs_service_storage.id
+        iam = "DISABLED"
+      }
     }
   }
 }
