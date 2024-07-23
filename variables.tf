@@ -138,8 +138,8 @@ variable "health_check_interval" {
 
 variable "health_check_path" {
   description = "Destination for the health check request. Required for HTTP/HTTPS ALB and HTTP NLB. Only applies to HTTP/HTTPS."
-  type = string
-  default = "/"
+  type        = string
+  default     = "/"
 }
 
 variable "health_check_protocol" {
@@ -176,6 +176,6 @@ variable "health_check_matcher" {
 
 variable "assign_public_ip" {
   description = "Assign a public IP address to the ENI (Fargate launch type only)."
-  type = bool
-  default = false 
+  type        = bool
+  default     = false
 }

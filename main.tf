@@ -31,8 +31,8 @@ resource "aws_efs_access_point" "ecs_service_storage" {
   root_directory {
 
     creation_info {
-      owner_gid = 0
-      owner_uid = 472
+      owner_gid   = 0
+      owner_uid   = 472
       permissions = 0755
     }
 
@@ -109,11 +109,11 @@ locals {
 
 # Create the actual task definition by passing it the container definition from above
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  family                   = var.service_name
-  container_definitions    = local.container_definitions
-  network_mode             = "awsvpc"
-  cpu                      = var.cpu
-  memory                   = var.memory
+  family                = var.service_name
+  container_definitions = local.container_definitions
+  network_mode          = "awsvpc"
+  cpu                   = var.cpu
+  memory                = var.memory
   #requires_compatibilities = ["FARGATE", "EC2"]
   requires_compatibilities = ["FARGATE"]
   task_role_arn            = aws_iam_role.ecs_task_role.arn
@@ -123,12 +123,12 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     name = "grafana-db"
 
     efs_volume_configuration {
-      file_system_id = aws_efs_file_system.ecs_service_storage.id
-      root_directory = "/"
+      file_system_id     = aws_efs_file_system.ecs_service_storage.id
+      root_directory     = "/"
       transit_encryption = "ENABLED"
       authorization_config {
         access_point_id = aws_efs_access_point.ecs_service_storage.id
-        iam = "DISABLED"
+        iam             = "DISABLED"
       }
     }
   }
