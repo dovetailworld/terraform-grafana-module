@@ -65,10 +65,10 @@ resource "aws_ecs_service" "this" {
   health_check_grace_period_seconds  = var.health_check_grace_period_seconds
   launch_type                        = "FARGATE"
   platform_version                   = var.platform_version
-  depends_on                         = [aws_lb_target_group.target_group]
+  depends_on                         = [aws_lb_target_group.this]
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.this.arn
     container_name   = var.service_name
     container_port   = var.container_port
   }
