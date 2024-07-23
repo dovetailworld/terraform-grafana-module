@@ -25,56 +25,7 @@
         "sourceVolume": "grafana-db"
       }
     ],
-    "secrets": [
-      {
-        "valueFrom": "/grafana/GF_AUTH_GITHUB_ALLOW_SIGN_UP",
-        "name": "GF_AUTH_GITHUB_ALLOW_SIGN_UP"
-      },
-      {
-        "valueFrom": "/grafana/GF_AUTH_GITHUB_ALLOWED_ORGANIZATIONS",
-        "name": "GF_AUTH_GITHUB_ALLOWED_ORGANIZATIONS"
-      },
-      {
-        "valueFrom": "/grafana/GF_AUTH_GITHUB_API_URL",
-        "name": "GF_AUTH_GITHUB_API_URL"
-      },
-      {
-        "valueFrom": "/grafana/GF_AUTH_GITHUB_AUTH_URL",
-        "name": "GF_AUTH_GITHUB_AUTH_URL"
-      },
-      {
-        "valueFrom": "/grafana/GF_AUTH_GITHUB_CLIENT_ID",
-        "name": "GF_AUTH_GITHUB_CLIENT_ID"
-      },
-      {
-        "valueFrom": "/grafana/GF_AUTH_GITHUB_CLIENT_SECRET",
-        "name": "GF_AUTH_GITHUB_CLIENT_SECRET"
-      },
-      {
-        "valueFrom": "/grafana/GF_AUTH_GITHUB_ENABLED",
-        "name": "GF_AUTH_GITHUB_ENABLED"
-      },
-      {
-        "valueFrom": "/grafana/GF_AUTH_GITHUB_SCOPES",
-        "name": "GF_AUTH_GITHUB_SCOPES"
-      },
-      {
-        "valueFrom": "/grafana/GF_AUTH_GITHUB_TOKEN_URL",
-        "name": "GF_AUTH_GITHUB_TOKEN_URL"
-      },
-      {
-        "valueFrom": "/grafana/GF_SERVER_ROOT_URL",
-        "name": "GF_SERVER_ROOT_URL"
-      },
-      {
-        "valueFrom": "/grafana/GF_SERVER_ENABLE_GZIP",
-        "name": "GF_SERVER_ENABLE_GZIP"
-      },
-      {
-        "valueFrom": "/grafana/GF_DEFAULT_INSTANCE_NAME",
-        "name": "GF_DEFAULT_INSTANCE_NAME"
-      }
-    ],
+    "secrets": [],
     "volumesFrom": [],
     "essential": true
   }
