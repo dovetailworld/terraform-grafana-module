@@ -5,44 +5,44 @@ variable "aws_region" {
 
 variable "domain" {
   description = "The root domain to use for Route53 and ACM."
-  type = string 
+  type        = string
 }
 
 variable "vpc_id" {
-  description = "The VPC ID in which to deploy the resources"
+  description = "The VPC ID in which to deploy the resources."
   type        = string
 }
 
 variable "private_subnet_ids" {
-  description = "The list of private subnet IDs"
+  description = "The list of private subnet IDs."
   type        = list(any)
 }
 
 variable "public_subnet_ids" {
-  description = "The list of public subnet IDs"
+  description = "The list of public subnet IDs."
   type        = list(any)
 }
 
 variable "service_name" {
-  description = "The name of the ECS service (e.g. my-service-stage)"
+  description = "The name of the ECS service (e.g. my-service-stage)."
   type        = string
   default     = "grafana"
 }
 
 variable "platform_version" {
-  description = "The ECS Fargate version to run Grafana on"
+  description = "The ECS Fargate version to run Grafana on."
   type        = string
   default     = "LATEST"
 }
 
 variable "image" {
-  description = "The Docker image to run"
+  description = "The Docker image to run."
   type        = string
   default     = "grafana/grafana-oss"
 }
 
 variable "image_version" {
-  description = "Which version (AKA tag) of the var.image Docker image to deploy (e.g. 0.57)"
+  description = "Which version (AKA tag) of the var.image Docker image to deploy (e.g. 0.57)."
   type        = string
   default     = "10.4.5"
 }
@@ -54,7 +54,7 @@ variable "container_port" {
 }
 
 variable "cloudwatch_log_group_name" {
-  description = "The name of the cloudwatch log group where the application will send logs to"
+  description = "The name of the Cloudwatch log group where the application will send logs to."
   type        = string
   default     = "/ecs/grafana"
 }
@@ -72,13 +72,13 @@ variable "memory" {
 }
 
 variable "desired_number_of_tasks" {
-  description = "How many instances of the ECS Service to run across the ECS cluster"
+  description = "How many instances of the ECS Service to run across the ECS cluster."
   type        = number
   default     = 1
 }
 
 variable "allow_inbound_from_cidr_blocks" {
-  description = "A list of IP CIDR blocks allowed to access the service"
+  description = "A list of IP CIDR blocks allowed to access the service."
   type        = list(any)
   default     = ["0.0.0.0/0"]
 }
