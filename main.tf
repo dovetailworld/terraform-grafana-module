@@ -75,6 +75,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
   name               = "${var.service_name}-task-execution-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_task.json
 }
+
 resource "aws_iam_role" "ecs_task_role" {
   name               = "${var.service_name}-task-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_task.json
@@ -96,12 +97,11 @@ locals {
 
 # Create the actual task definition by passing it the container definition from above
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  family                = var.service_name
-  container_definitions = local.container_definitions
-  network_mode          = "awsvpc"
-  cpu                   = var.cpu
-  memory                = var.memory
-  #requires_compatibilities = ["FARGATE", "EC2"]
+  family                   = var.service_name
+  container_definitions    = local.container_definitions
+  network_mode             = "awsvpc"
+  cpu                      = var.cpu
+  memory                   = var.memory
   requires_compatibilities = ["FARGATE"]
   task_role_arn            = aws_iam_role.ecs_task_role.arn
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
@@ -158,26 +158,32 @@ resource "aws_iam_role_policy_attachment" "task_ecr" {
   role       = aws_iam_role.ecs_task_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
 }
+
 resource "aws_iam_role_policy_attachment" "task_cloudwatch" {
   role       = aws_iam_role.ecs_task_role.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
 }
+
 resource "aws_iam_role_policy_attachment" "task_ssm_ro" {
   role       = aws_iam_role.ecs_task_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
 }
+
 resource "aws_iam_role_policy_attachment" "task_execution_custom" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.ecs_task_custom_policy.arn
 }
+
 resource "aws_iam_role_policy_attachment" "task_execution_ecr" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
 }
+
 resource "aws_iam_role_policy_attachment" "task_execution_cloudwatch" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
 }
+
 resource "aws_iam_role_policy_attachment" "task_execution_ssm_ro" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
@@ -242,38 +248,6 @@ resource "aws_lb_target_group" "target_group" {
 # CREATE THE APPLICATION LOAD BALANCER FOR THE ECS SERVICE
 # ---------------------------------------------------------------------------------------------------------------------
 
-# Define a S3 bucket for the ALB logs
-# resource "aws_s3_bucket" "alb_logs_s3_bucket" {
-#   bucket = "${var.service_name}-alb-logs"
-#   acl    = "log-delivery-write"
-
-#   versioning {
-#     enabled = true
-#   }
-# }
-
-# resource "aws_s3_bucket_policy" "alb_logs_s3_bucket" {
-#   bucket = aws_s3_bucket.alb_logs_s3_bucket.id
-#   policy = <<POLICY
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Sid": "enable_load_balancer_to_write_logs",
-#       "Effect": "Allow",
-#       "Principal": {
-#         "Service": "delivery.logs.amazonaws.com",
-#         "AWS": "arn:aws:iam::127311923021:root"
-#       },
-#       "Action": "s3:PutObject",
-#       "Resource": "arn:aws:s3:::${aws_s3_bucket.alb_logs_s3_bucket.bucket}/*"
-#     }
-#   ]
-# }
-# POLICY
-# }
-
-# Create the actual ALB
 resource "aws_lb" "ecs_alb" {
   name                             = "${var.service_name}-alb"
   internal                         = false
@@ -282,11 +256,6 @@ resource "aws_lb" "ecs_alb" {
   subnets                          = var.public_subnet_ids
   enable_cross_zone_load_balancing = true
   enable_http2                     = true
-
-  # access_logs {
-  #   bucket  = aws_s3_bucket.alb_logs_s3_bucket.bucket
-  #   enabled = true
-  # }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
