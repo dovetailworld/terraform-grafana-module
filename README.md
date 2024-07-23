@@ -1,6 +1,8 @@
 # Grafana on ECS Fargate
 
-This Terraform Module deploys Grafana on ECS Fargate with an ALB and user defined domain name.
+Credits to [56kcloud](https://github.com/56kcloud/terraform-grafana) for the original idea of this module.
+
+This Terraform Module deploys Grafana on ECS Fargate with an ALB and user defined domain name. The only resource that needs to be provided is a VPC with at least one public and private subnet.
 
 ## Example
 
