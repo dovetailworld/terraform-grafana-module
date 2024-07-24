@@ -74,13 +74,8 @@ No modules.
 | [aws_route53_record.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_zone.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_zone) | resource |
 | [aws_security_group.alb_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_security_group.ecs_service_security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_security_group.ecs_task_security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_security_group.ecs_service_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.efs_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_security_group_rule.allow_inbound_ecs_service_all](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.allow_inbound_on_container_port](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.allow_outbound_all](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.allow_outbound_ecs_service_all](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_iam_policy_document.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
@@ -108,12 +103,12 @@ No modules.
 | <a name="input_health_check_timeout"></a> [health\_check\_timeout](#input\_health\_check\_timeout) | The amount of time, in seconds, during which no response from a Target means a failed health check. The acceptable range is 2 to 60 seconds. | `number` | `5` | no |
 | <a name="input_health_check_unhealthy_threshold"></a> [health\_check\_unhealthy\_threshold](#input\_health\_check\_unhealthy\_threshold) | The number of consecutive failed health checks required before considering a target unhealthy. The acceptable range is 2 to 10. | `number` | `2` | no |
 | <a name="input_image"></a> [image](#input\_image) | The Docker image to run. | `string` | `"grafana/grafana-oss"` | no |
-| <a name="input_image_version"></a> [image\_version](#input\_image\_version) | Which version (AKA tag) of the var.image Docker image to deploy (e.g. 0.57). | `string` | `"10.4.5"` | no |
+| <a name="input_image_version"></a> [image\_version](#input\_image\_version) | Which version (AKA tag) of the var.image Docker image to deploy. | `string` | `"10.4.5"` | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | How much memory, in MB, to give the ECS Service. | `number` | `2048` | no |
 | <a name="input_platform_version"></a> [platform\_version](#input\_platform\_version) | The ECS Fargate version to run Grafana on. | `string` | `"LATEST"` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The list of private subnet IDs. | `list(any)` | n/a | yes |
 | <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | The list of public subnet IDs. | `list(any)` | n/a | yes |
-| <a name="input_service_name"></a> [service\_name](#input\_service\_name) | The name of the ECS service (e.g. my-service-stage). | `string` | `"grafana"` | no |
+| <a name="input_service_name"></a> [service\_name](#input\_service\_name) | The name of the ECS service. | `string` | `"grafana"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC ID in which to deploy the resources. | `string` | n/a | yes |
 
 ## Outputs
