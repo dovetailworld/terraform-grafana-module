@@ -93,6 +93,6 @@ resource "aws_security_group" "alb_sg" {
   }
 
   lifecycle {
-    create_before_destroy = true
+    create_before_destroy = false
   }
 }
