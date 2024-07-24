@@ -75,7 +75,11 @@ resource "aws_ecs_service" "this" {
 
   network_configuration {
     subnets          = var.private_subnet_ids
-    security_groups  = [aws_security_group.ecs_service_security_group.id]
+    security_groups  = [aws_security_group.ecs_service_sg.id]
     assign_public_ip = var.assign_public_ip
+  }
+
+  lifecycle {
+    replace_triggered_by = [aws_security_group.ecs_service_sg.id]
   }
 }

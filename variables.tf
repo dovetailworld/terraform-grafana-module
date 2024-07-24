@@ -24,7 +24,7 @@ variable "public_subnet_ids" {
 }
 
 variable "service_name" {
-  description = "The name of the ECS service (e.g. my-service-stage)."
+  description = "The name of the ECS service."
   type        = string
   default     = "grafana"
 }
@@ -42,7 +42,7 @@ variable "image" {
 }
 
 variable "image_version" {
-  description = "Which version (AKA tag) of the var.image Docker image to deploy (e.g. 0.57)."
+  description = "Which version (AKA tag) of the var.image Docker image to deploy."
   type        = string
   default     = "10.4.5"
 }
