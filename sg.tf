@@ -22,10 +22,6 @@ resource "aws_security_group" "efs_sg" {
   tags = {
     name = "${var.service_name}-efs-sg"
   }
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 # Security group for the Grafana ECS service
@@ -52,10 +48,6 @@ resource "aws_security_group" "ecs_service_sg" {
 
   tags = {
     name = "${var.service_name}-service-sg"
-  }
-
-  lifecycle {
-    create_before_destroy = true
   }
 }
 
@@ -90,9 +82,5 @@ resource "aws_security_group" "alb_sg" {
 
   tags = {
     name = "${var.service_name}-alb-sg"
-  }
-
-  lifecycle {
-    create_before_destroy = false
   }
 }

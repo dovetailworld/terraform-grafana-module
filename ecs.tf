@@ -78,4 +78,8 @@ resource "aws_ecs_service" "this" {
     security_groups  = [aws_security_group.ecs_service_sg.id]
     assign_public_ip = var.assign_public_ip
   }
+
+  lifecycle {
+    replace_triggered_by = [aws_security_group.ecs_service_sg]
+  }
 }
