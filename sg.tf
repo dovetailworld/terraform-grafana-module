@@ -1,14 +1,15 @@
 # Security group for the EFS share and mount target
 resource "aws_security_group" "efs_sg" {
   name        = "${var.service_name}-efs-sg"
-  description = "Allow traffic to the EFS storage volume"
+  description = "Allow traffic to EFS from the ${var.service_name} service."
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "TCP"
+    description     = "${var.service_name} service"
+    security_groups = [aws_security_group.ecs_service_security_group.id]  
   }
 
   egress {
@@ -17,65 +18,50 @@ resource "aws_security_group" "efs_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    name = "${var.service_name}-efs-sg"
+  }
 }
 
-# Security group for the ECS task
-resource "aws_security_group" "ecs_task_security_group" {
-  name   = "${var.service_name}-task-access"
+# Security group for the Grafana ECS service
+resource "aws_security_group" "ecs_service_sg" {
+  name   = "${var.service_name}-service-sg"
+  description = "Allow traffic to the ${var.service_name} service."
   vpc_id = var.vpc_id
-}
-resource "aws_security_group_rule" "allow_outbound_all" {
-  security_group_id = aws_security_group.ecs_task_security_group.id
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
 
-resource "aws_security_group_rule" "allow_inbound_on_container_port" {
-  security_group_id = aws_security_group.ecs_task_security_group.id
-  type              = "ingress"
-  from_port         = var.container_port
-  to_port           = var.container_port
-  protocol          = "tcp"
-  cidr_blocks       = var.allow_inbound_from_cidr_blocks
-}
+  ingress {
+    from_port       = var.container_port
+    to_port         = var.container_port
+    protocol        = "TCP"
+    description     = "Custom HTTP ALB" 
+    security_groups = [aws_security_group.alb_sg.id]
 
-# Security group for the ECS service
-resource "aws_security_group" "ecs_service_security_group" {
-  name   = "${var.service_name}-service-access"
-  vpc_id = var.vpc_id
-}
+  }
 
-resource "aws_security_group_rule" "allow_outbound_ecs_service_all" {
-  security_group_id = aws_security_group.ecs_service_security_group.id
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
+  egress {
+    from_port         = 0
+    to_port           = 0
+    protocol          = "-1"
+    cidr_blocks       = ["0.0.0.0/0"]
+  }
 
-resource "aws_security_group_rule" "allow_inbound_ecs_service_all" {
-  security_group_id = aws_security_group.ecs_service_security_group.id
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
+  tags = {
+    name = "${var.service_name}-service-sg"
+  }
 }
 
 # Security group for the ALB
 resource "aws_security_group" "alb_sg" {
   name        = "${var.service_name}-alb-sg"
-  description = "Allow traffic to the ALB created for the ${var.service_name} service"
+  description = "Allow HTTP(S) traffic to the ALB for the ${var.service_name} service."
   vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
+    description = "HTTP"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -83,6 +69,7 @@ resource "aws_security_group" "alb_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
+    description = "HTTPS"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -91,5 +78,9 @@ resource "aws_security_group" "alb_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    name = "${var.service_name}-alb-sg"
   }
 }
