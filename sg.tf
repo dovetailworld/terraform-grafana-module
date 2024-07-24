@@ -9,7 +9,7 @@ resource "aws_security_group" "efs_sg" {
     to_port         = 2049
     protocol        = "TCP"
     description     = "${var.service_name} service"
-    security_groups = [aws_security_group.ecs_service_security_group.id]  
+    security_groups = [aws_security_group.ecs_service_sg.id]  
   }
 
   egress {
