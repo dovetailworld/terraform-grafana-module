@@ -29,6 +29,10 @@ resource "aws_lb" "this" {
   subnets                          = var.public_subnet_ids
   enable_cross_zone_load_balancing = true
   enable_http2                     = true
+
+  lifecycle {
+    replace_triggered_by = [aws_security_group.alb_sg.id]
+  }
 }
 
 # Configure HTTP listener

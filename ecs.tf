@@ -80,6 +80,6 @@ resource "aws_ecs_service" "this" {
   }
 
   lifecycle {
-    replace_triggered_by = [aws_security_group.ecs_service_sg]
+    replace_triggered_by = [aws_security_group.ecs_service_sg.id]
   }
 }
