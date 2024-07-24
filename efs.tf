@@ -12,6 +12,10 @@ resource "aws_efs_mount_target" "this" {
   file_system_id  = aws_efs_file_system.this.id
   subnet_id       = var.private_subnet_ids[count.index]
   security_groups = [aws_security_group.efs_sg.id]
+
+  lifecycle {
+    replace_triggered_by = [aws_security_group.efs_sg.id]
+  }
 }
 
 # Create the EFS access point for the Grafana user
