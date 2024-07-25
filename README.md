@@ -108,6 +108,7 @@ No modules.
 | <a name="input_platform_version"></a> [platform\_version](#input\_platform\_version) | The ECS Fargate version to run Grafana on. | `string` | `"LATEST"` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The list of private subnet IDs. | `list(any)` | n/a | yes |
 | <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | The list of public subnet IDs. | `list(any)` | n/a | yes |
+| <a name="input_root_url"></a> [root\_url](#input\_root\_url) | The root URL for Grafana, if not set it might cause issues with OAuth. | `string` | `"%(protocol)s://%(domain)s:%(http_port)s/"` | no |
 | <a name="input_service_name"></a> [service\_name](#input\_service\_name) | The name of the ECS service. | `string` | `"grafana"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC ID in which to deploy the resources. | `string` | n/a | yes |
 

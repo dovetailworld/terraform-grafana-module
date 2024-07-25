@@ -26,6 +26,7 @@ locals {
     cpu                       = var.cpu
     memory                    = var.memory
     container_port            = var.container_port
+    root_url                  = var.root_url
   })
 }
 
