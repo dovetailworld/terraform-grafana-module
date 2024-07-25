@@ -53,6 +53,12 @@ variable "container_port" {
   default     = 3000
 }
 
+variable "root_url" {
+  description = "The root URL for Grafana, if not set it might cause issues with OAuth."
+  type        = string
+  default     = "%(protocol)s://%(domain)s:%(http_port)s/"
+}
+
 variable "cloudwatch_log_group_name" {
   description = "The name of the Cloudwatch log group where the application will send logs to."
   type        = string

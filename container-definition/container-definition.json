@@ -27,6 +27,12 @@
     ],
     "secrets": [],
     "volumesFrom": [],
-    "essential": true
+    "essential": true,
+    "environment": [
+      {
+          "name": "GF_SERVER_ROOT_URL",
+          "value": ${root_url}
+      }
+    ]
   }
 ]
