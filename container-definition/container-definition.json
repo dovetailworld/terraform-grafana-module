@@ -31,7 +31,7 @@
     "environment": [
       {
           "name": "GF_SERVER_ROOT_URL",
-          "value": ${root_url}
+          "value": "${root_url}"
       }
     ]
   }
