@@ -33,6 +33,15 @@
           "name": "GF_SERVER_ROOT_URL",
           "value": "${root_url}"
       }
-    ]
+    ],
+    "healthCheck": {
+      "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:3000/login || exit 1"
+      ],
+      "interval": 30,
+      "timeout": 5,
+      "retries": 3
+    }
   }
 ]
