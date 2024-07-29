@@ -15,6 +15,7 @@ data "aws_iam_policy_document" "fargate_spot_fallback_assume_role" {
 
 resource "aws_iam_role" "fargate_spot_fallback_role" {
   name               = "fargate-spot-fallback-role"
+  description        = "Role for fargate-spot-fallback lambda function."
   assume_role_policy = data.aws_iam_policy_document.fargate_spot_fallback_assume_role.json
 }
 
@@ -58,7 +59,7 @@ data "aws_iam_policy_document" "fargate_spot_fallback_policy" {
 
 resource "aws_iam_policy" "fargate_spot_fallback_policy" {
   name        = "fargate-spot-fallback-policy"
-  description = "A test policy"
+  description = "Policy for fargate-spot-fallback lambda function."
   policy      = data.aws_iam_policy_document.fargate_spot_fallback_policy.json
 }
 
