@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "fargate_spot_fallback_assume_role" {
 }
 
 resource "aws_iam_role" "fargate_spot_fallback_role" {
-  name               = "Role for Fargate Spot Fallback Lambda function."
+  name               = "fargate-spot-fallback-role"
   assume_role_policy = data.aws_iam_policy_document.fargate_spot_fallback_assume_role.json
 }
 
@@ -34,14 +34,14 @@ data "aws_iam_policy_document" "fargate_spot_fallback_policy" {
       "logs:PutLogEvents"
     ]
 
-    resources = ["arn:aws:logs:eu-west-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.this}:*"]
+    resources = ["arn:aws:logs:eu-west-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.fargate_spot_fallback}:*"]
   }
 
   statement {
     sid = "DescribeService"
 
     actions   = ["ecs:DescribeServices"]
-    resources = [aws_ecs_service.fargate_spot.arn]
+    resources = [aws_ecs_service.fargate_spot[0].arn]
   }
 
   statement {
@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "fargate_spot_fallback_policy" {
       "ecs:UpdateService"
     ]
 
-    resources = [aws_ecs_service.fargate.arn]
+    resources = [aws_ecs_service.fargate[0].arn]
   }
 }
 
