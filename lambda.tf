@@ -34,7 +34,7 @@ data "aws_iam_policy_document" "fargate_spot_fallback_policy" {
       "logs:PutLogEvents"
     ]
 
-    resources = ["arn:aws:logs:eu-west-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.fargate_spot_fallback}:*"]
+    resources = ["arn:aws:logs:eu-west-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.arn}:*"]
   }
 
   statement {
