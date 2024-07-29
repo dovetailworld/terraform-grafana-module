@@ -153,7 +153,7 @@ resource "aws_ecs_service" "fargate_ondemand" {
   name                               = "${var.service_name}-ondemand"
   cluster                            = aws_ecs_cluster.this.arn
   task_definition                    = aws_ecs_task_definition.this.arn
-  desired_count                      = var.desired_number_of_tasks
+  desired_count                      = 0
   deployment_maximum_percent         = var.deployment_maximum_percent
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   health_check_grace_period_seconds  = var.health_check_grace_period_seconds
