@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "fargate_spot_fallback_policy" {
       "ecs:UpdateService"
     ]
 
-    resources = [aws_ecs_service.fargate[0].arn]
+    resources = [aws_ecs_service.fargate_ondemand[0].arn]
   }
 }
 
@@ -86,7 +86,7 @@ resource "aws_lambda_function" "fargate_spot_fallback" {
   environment {
     variables = {
       PRIMARY_SERVICE_ARN  = aws_ecs_service.fargate_spot[0].arn
-      FALLBACK_SERVICE_ARN = aws_ecs_service.fargate[0].arn
+      FALLBACK_SERVICE_ARN = aws_ecs_service.fargate_ondemand[0].arn
     }
   }
 }
