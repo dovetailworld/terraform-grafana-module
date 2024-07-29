@@ -78,7 +78,7 @@ resource "aws_lambda_function" "fargate_spot_fallback" {
   filename      = "${path.module}/lambda-function/lambda_function_payload.zip"
   function_name = "fargate-spot-fallback"
   role          = aws_iam_role.fargate_spot_fallback_role.arn
-  handler       = "index.test"
+  handler       = "index.handler"
 
   source_code_hash = data.archive_file.fargate_spot_fallback_lambda.output_base64sha256
 
