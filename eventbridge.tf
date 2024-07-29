@@ -13,6 +13,6 @@ resource "aws_cloudwatch_event_rule" "this" {
 }
 
 resource "aws_cloudwatch_event_target" "this" {
-  arn  = aws_lambda_function.fargate_spot_fallback.id
+  arn  = aws_lambda_function.fargate_spot_fallback.arn
   rule = aws_cloudwatch_event_rule.this.id
 }
