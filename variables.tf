@@ -84,7 +84,7 @@ variable "desired_number_of_tasks" {
 }
 
 variable "allow_inbound_from_cidr_blocks" {
-  description = "A list of IP CIDR blocks allowed to access the service."
+  description = "A list of IP CIDR blocks allowed to access the service via the lb."
   type        = list(any)
   default     = ["0.0.0.0/0"]
 }
@@ -163,6 +163,18 @@ variable "health_check_matcher" {
 
 variable "assign_public_ip" {
   description = "Assign a public IP address to the ENI (Fargate launch type only)."
+  type        = bool
+  default     = false
+}
+
+variable "enable_spot" {
+  description = "Enable to use FARGATE_SPOT instead of FARGATE (On-demand)."
+  type        = bool
+  default     = false
+}
+
+variable "enable_fallback" {
+  description = "Enable to create an additional service that uses FARGATE (On-demand) in case FARGATE_SPOT is unavailable."
   type        = bool
   default     = false
 }
