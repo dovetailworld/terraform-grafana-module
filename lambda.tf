@@ -85,8 +85,8 @@ resource "aws_lambda_function" "fargate_spot_fallback" {
 
   environment {
     variables = {
-      PRIMARY_SERVICE_ARN  = aws_ecs_service.fargate_spot.arn
-      FALLBACK_SERVICE_ARN = aws_ecs_service.fargate.arn
+      PRIMARY_SERVICE_ARN  = aws_ecs_service.fargate_spot[0].arn
+      FALLBACK_SERVICE_ARN = aws_ecs_service.fargate[0].arn
     }
   }
 }
