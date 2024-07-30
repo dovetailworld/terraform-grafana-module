@@ -100,7 +100,7 @@ resource "aws_lambda_function" "fargate_spot_fallback" {
 
   source_code_hash = data.archive_file.fargate_spot_fallback_lambda[0].output_base64sha256
 
-  runtime = "python3.8"
+  runtime = "python3.12"
 
   environment {
     variables = {
