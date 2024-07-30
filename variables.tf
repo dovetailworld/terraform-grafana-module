@@ -44,7 +44,7 @@ variable "image" {
 variable "image_version" {
   description = "Which version (AKA tag) of the var.image Docker image to deploy."
   type        = string
-  default     = "10.4.5"
+  default     = "11.1.0"
 }
 
 variable "container_port" {

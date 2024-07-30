@@ -1,5 +1,7 @@
+# Retrieve current AWS Account information
 data "aws_caller_identity" "current" {}
 
+# Create role for fargate-spot-fallback Lambda function
 data "aws_iam_policy_document" "fargate_spot_fallback_assume_role" {
   statement {
     effect = "Allow"
@@ -68,12 +70,14 @@ resource "aws_iam_role_policy_attachment" "fargate_spot_fallback_policy_attach" 
   policy_arn = aws_iam_policy.fargate_spot_fallback_policy.arn
 }
 
+# Archive Python file
 data "archive_file" "fargate_spot_fallback_lambda" {
   type        = "zip"
   source_file = "${path.module}/lambda-function/index.py"
   output_path = "${path.module}/lambda-function/lambda_function_payload.zip"
 }
 
+# Create fargate-spot-fallback Lambda function
 resource "aws_lambda_function" "fargate_spot_fallback" {
   filename      = "${path.module}/lambda-function/lambda_function_payload.zip"
   function_name = "fargate-spot-fallback"

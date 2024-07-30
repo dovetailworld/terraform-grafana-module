@@ -1,6 +1,6 @@
 # Grafana on ECS Fargate
 
-This Terraform Module deploys Grafana on ECS Fargate with an ALB and user defined domain name.
+This Terraform module deploys Grafana on ECS Fargate (Spot) with EFS as storage, ALB (HTTPS) and user defined domain name.
 
 ## Credits
 
@@ -22,18 +22,21 @@ This Terraform Module deploys Grafana on ECS Fargate with an ALB and user define
 module "grafana_ecs" {
   source = "git@github.com:dovetailworld/terraform-grafana-module.git?ref=<tag>"
 
-  aws_region                     = var.region
-  domain                         = "example.com"
+  aws_region                     = "eu-west-1"
+  domain                         = "www.example.com"
+  root_url                       = "https://www.example.com/"
   image                          = "grafana/grafana-oss"
-  image_version                  = "10.4.5"
+  image_version                  = "11.1.0"
   cloudwatch_log_group_name      = "/ecs/grafana"
   cpu                            = 1024
   memory                         = 2048
   desired_number_of_tasks        = 1
   allow_inbound_from_cidr_blocks = ["0.0.0.0/0"]
+  enable_spot                    = true
+  enable_fallback                = true
   vpc_id                         = ""
-  private_subnet_ids             = ""
-  public_subnet_ids              = ""
+  private_subnet_ids             = [""]
+  public_subnet_ids              = [""]
 }
 ```
 
@@ -142,7 +145,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_efs_arn"></a> [efs\_arn](#output\_efs\_arn) | n/a |
-| <a name="output_efs_id"></a> [efs\_id](#output\_efs\_id) | n/a |
-| <a name="output_efs_name"></a> [efs\_name](#output\_efs\_name) | n/a |
+| <a name="output_efs_arn"></a> [efs\_arn](#output\_efs\_arn) | Output EFS ARN |
+| <a name="output_efs_id"></a> [efs\_id](#output\_efs\_id) | Output EFS ID |
+| <a name="output_efs_name"></a> [efs\_name](#output\_efs\_name) | Output EFS Name |
 <!-- END_TF_DOCS -->
