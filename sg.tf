@@ -9,7 +9,7 @@ resource "aws_security_group" "efs_sg" {
     to_port         = 2049
     protocol        = "TCP"
     description     = "${var.service_name} service"
-    security_groups = [aws_security_group.ecs_service_sg.id]  
+    security_groups = [aws_security_group.ecs_service_sg.id]
   }
 
   egress {
@@ -26,24 +26,24 @@ resource "aws_security_group" "efs_sg" {
 
 # Security group for the Grafana ECS service
 resource "aws_security_group" "ecs_service_sg" {
-  name   = "${var.service_name}-service-sg"
+  name        = "${var.service_name}-service-sg"
   description = "Allow traffic to the ${var.service_name} service."
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port       = var.container_port
     to_port         = var.container_port
     protocol        = "TCP"
-    description     = "Custom HTTP ALB" 
+    description     = "Custom HTTP ALB"
     security_groups = [aws_security_group.alb_sg.id]
 
   }
 
   egress {
-    from_port         = 0
-    to_port           = 0
-    protocol          = "-1"
-    cidr_blocks       = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -62,7 +62,7 @@ resource "aws_security_group" "alb_sg" {
     to_port     = 80
     protocol    = "tcp"
     description = "HTTP"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.allow_inbound_from_cidr_blocks
   }
 
   ingress {
@@ -70,7 +70,7 @@ resource "aws_security_group" "alb_sg" {
     to_port     = 443
     protocol    = "tcp"
     description = "HTTPS"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.allow_inbound_from_cidr_blocks
   }
 
   egress {

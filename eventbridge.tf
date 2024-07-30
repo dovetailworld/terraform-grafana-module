@@ -1,0 +1,24 @@
+# Create event rule that captures ECS service actions
+resource "aws_cloudwatch_event_rule" "this" {
+  count = var.enable_fallback ? 1 : 0
+
+  name        = "ecs-service-action"
+  description = "Capture ECS Service Actions"
+
+  event_pattern = jsonencode({
+    source      = ["aws.ecs"],
+    detail-type = ["ECS Service Action"],
+    resources   = ["arn:aws:ecs:eu-west-1:609188321737:service/grafana/grafana-spot"],
+    detail = {
+      "eventName" : ["SERVICE_STEADY_STATE", "SERVICE_TASK_PLACEMENT_FAILURE"]
+    }
+  })
+}
+
+# Send events to fargate-spot-fallback Lambda function
+resource "aws_cloudwatch_event_target" "this" {
+  count = var.enable_fallback ? 1 : 0
+
+  arn  = aws_lambda_function.fargate_spot_fallback[0].arn
+  rule = aws_cloudwatch_event_rule.this[0].id
+}
