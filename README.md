@@ -40,6 +40,34 @@ module "grafana_ecs" {
 }
 ```
 
+## Test Lambda Function
+
+You can test the Lambda function by using the below two JSON Events:
+
+### SERVICE_TASK_PLACEMENT_FAILURE
+```json
+{
+  "detail": {
+    "eventName": "SERVICE_TASK_PLACEMENT_FAILURE"
+  },
+  "detail-type": "ECS Service Action",
+  "resources": "arn:aws:ecs:eu-west-1:<account-id>:service/grafana/grafana-spot",
+  "source": "aws.ecs"
+}
+```
+
+### SERVICE_STEADY_STATE
+```json
+{
+  "detail": {
+    "eventName": "SERVICE_STEADY_STATE"
+  },
+  "detail-type": "ECS Service Action",
+  "resources": "arn:aws:ecs:eu-west-1:<account-id>:service/grafana/grafana-spot",
+  "source": "aws.ecs"
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
