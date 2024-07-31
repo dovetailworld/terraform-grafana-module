@@ -1,7 +1,7 @@
 # Create the LB target group to which the Grafana service will be attached to
 resource "aws_lb_target_group" "this" {
   name                 = var.service_name
-  port                 = var.container_port
+  port                 = var.grafana_container_port
   protocol             = var.alb_target_group_protocol
   target_type          = "ip"
   vpc_id               = var.vpc_id
@@ -11,7 +11,7 @@ resource "aws_lb_target_group" "this" {
     enabled             = true
     interval            = var.health_check_interval
     path                = var.health_check_path
-    port                = var.container_port
+    port                = var.grafana_container_port
     protocol            = var.health_check_protocol
     timeout             = var.health_check_timeout
     healthy_threshold   = var.health_check_healthy_threshold

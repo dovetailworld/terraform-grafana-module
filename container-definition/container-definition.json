@@ -12,8 +12,8 @@
     },
     "portMappings": [
       {
-        "name": "grafana-${container_port}-tcp",
-        "containerPort": ${container_port},
+        "name": "grafana-${grafana_container_port}-tcp",
+        "containerPort": ${grafana_container_port},
         "hostPort": 3000,
         "protocol": "tcp",
         "appProtocol": "http"
