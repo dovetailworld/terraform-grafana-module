@@ -23,7 +23,6 @@ This Terraform module deploys Grafana on ECS Fargate (Spot) with EFS as storage,
 ## Example
 
 ```terraform
-
 module "grafana_ecs" {
   source = "git@github.com:dovetailworld/terraform-grafana-module.git?ref=<tag>"
 
@@ -35,8 +34,8 @@ module "grafana_ecs" {
   renderer_image                 = "grafana/grafana-image-renderer"
   renderer_version               = "3.11.1"
   cloudwatch_log_group_name      = "/ecs/grafana"
-  cpu                            = 512
-  memory                         = 1024
+  cpu                            = 1024
+  memory                         = 2048
   desired_number_of_tasks        = 1
   allow_inbound_from_cidr_blocks = ["0.0.0.0/0"]
   enable_spot                    = true
