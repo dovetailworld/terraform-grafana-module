@@ -29,12 +29,14 @@ module "grafana_ecs" {
 
   aws_region                     = "eu-west-1"
   domain                         = "grafana.example.com"
-  root_url                       = "https://grafana.example.com/"
-  image                          = "grafana/grafana-oss"
-  image_version                  = "11.1.0"
+  grafana_root_url               = "https://grafana.example.com/"
+  grafana_image                  = "grafana/grafana-oss"
+  grafana_version                = "11.1.0"
+  renderer_image                 = "grafana/grafana-image-renderer"
+  renderer_version               = "3.11.1"
   cloudwatch_log_group_name      = "/ecs/grafana"
-  cpu                            = 1024
-  memory                         = 2048
+  cpu                            = 512
+  memory                         = 1024
   desired_number_of_tasks        = 1
   allow_inbound_from_cidr_blocks = ["0.0.0.0/0"]
   enable_spot                    = true
