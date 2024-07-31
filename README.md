@@ -2,6 +2,8 @@
 
 This Terraform module deploys Grafana on ECS Fargate (Spot) with EFS as storage, ALB (HTTPS) and user defined domain name.
 
+<img src="overview.drawio.png" width="600" border="1"/>
+
 ## Credits
 
 - Credits to [56kcloud](https://github.com/56kcloud/terraform-grafana) for the original idea of this module.
@@ -14,6 +16,9 @@ This Terraform module deploys Grafana on ECS Fargate (Spot) with EFS as storage,
 ## Extra functionality
 
 - This module is able to run Grafana on `FARGATE_SPOT` with fallback to `FARGATE (On-demand)`.
+  - When `enable_spot = false` and `enable_fallback = false`, this module launches Grafana on `FARGATE`.
+  - When `enable_spot = true` and `enable_fallback = false`, this module launches Grafana on `FARGATE_SPOT`.
+  - When `enable_spot = true` and `enable_fallback = true`, this module launches two Grafana services (On-demand and Spot). When a 'placement failure' event is detected for `FARGATE_SPOT`, the `FARGATE` service sets the amount of `tasks` to `var.desired_number_of_tasks`.
 
 ## Example
 
@@ -23,8 +28,8 @@ module "grafana_ecs" {
   source = "git@github.com:dovetailworld/terraform-grafana-module.git?ref=<tag>"
 
   aws_region                     = "eu-west-1"
-  domain                         = "www.example.com"
-  root_url                       = "https://www.example.com/"
+  domain                         = "grafana.example.com"
+  root_url                       = "https://grafana.example.com/"
   image                          = "grafana/grafana-oss"
   image_version                  = "11.1.0"
   cloudwatch_log_group_name      = "/ecs/grafana"
@@ -160,7 +165,7 @@ No modules.
 | <a name="input_health_check_timeout"></a> [health\_check\_timeout](#input\_health\_check\_timeout) | The amount of time, in seconds, during which no response from a Target means a failed health check. The acceptable range is 2 to 60 seconds. | `number` | `5` | no |
 | <a name="input_health_check_unhealthy_threshold"></a> [health\_check\_unhealthy\_threshold](#input\_health\_check\_unhealthy\_threshold) | The number of consecutive failed health checks required before considering a target unhealthy. The acceptable range is 2 to 10. | `number` | `2` | no |
 | <a name="input_image"></a> [image](#input\_image) | The Docker image to run. | `string` | `"grafana/grafana-oss"` | no |
-| <a name="input_image_version"></a> [image\_version](#input\_image\_version) | Which version (AKA tag) of the var.image Docker image to deploy. | `string` | `"10.4.5"` | no |
+| <a name="input_image_version"></a> [image\_version](#input\_image\_version) | Which version (AKA tag) of the var.image Docker image to deploy. | `string` | `"11.1.0"` | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | How much memory, in MB, to give the ECS Service. | `number` | `2048` | no |
 | <a name="input_platform_version"></a> [platform\_version](#input\_platform\_version) | The ECS Fargate version to run Grafana on. | `string` | `"LATEST"` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The list of private subnet IDs. | `list(any)` | n/a | yes |
