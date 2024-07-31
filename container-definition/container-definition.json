@@ -19,8 +19,8 @@
         "appProtocol": "http"
       }
     ],
-    "cpu": ${cpu},
-    "memoryReservation": ${memory},
+    "cpu": ${grafana_cpu},
+    "memoryReservation": ${grafana_memory},
     "mountPoints": [
       {
         "containerPath": "/var/lib/grafana",
