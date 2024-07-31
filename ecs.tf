@@ -108,15 +108,15 @@ resource "aws_cloudwatch_log_group" "this" {
 locals {
   container_definitions = templatefile("${path.module}/container-definition/container-definition.json", {
     aws_region                = var.aws_region
-    container_name            = var.service_name
-    service_name              = var.service_name
-    image                     = var.image
-    version                   = var.image_version
     cloudwatch_log_group_name = aws_cloudwatch_log_group.this.name
-    cpu                       = var.cpu
-    memory                    = var.memory
-    container_port            = var.container_port
-    root_url                  = var.root_url
+    grafana_image             = var.grafana_image
+    grafana_version           = var.grafana_version
+    renderer_image            = var.renderer_image
+    renderer_version          = var.renderer_version
+    grafana_cpu               = (var.cpu - 256)
+    grafana_memory            = (var.memory - 512)
+    grafana_container_port    = var.grafana_container_port
+    grafana_root_url          = var.grafana_root_url
   })
 }
 
@@ -164,7 +164,7 @@ resource "aws_ecs_service" "fargate_ondemand" {
   load_balancer {
     target_group_arn = aws_lb_target_group.this.arn
     container_name   = var.service_name
-    container_port   = var.container_port
+    container_port   = var.grafana_container_port
   }
 
   network_configuration {
@@ -202,7 +202,7 @@ resource "aws_ecs_service" "fargate_spot" {
   load_balancer {
     target_group_arn = aws_lb_target_group.this.arn
     container_name   = var.service_name
-    container_port   = var.container_port
+    container_port   = var.grafana_container_port
   }
 
   network_configuration {

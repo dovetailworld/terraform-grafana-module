@@ -31,8 +31,8 @@ resource "aws_security_group" "ecs_service_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port       = var.container_port
-    to_port         = var.container_port
+    from_port       = var.grafana_container_port
+    to_port         = var.grafana_container_port
     protocol        = "TCP"
     description     = "Custom HTTP ALB"
     security_groups = [aws_security_group.alb_sg.id]
