@@ -19,6 +19,8 @@ This Terraform module deploys Grafana on ECS Fargate (Spot) with EFS as storage,
   - When `enable_spot = false` and `enable_fallback = false`, this module launches Grafana on `FARGATE`.
   - When `enable_spot = true` and `enable_fallback = false`, this module launches Grafana on `FARGATE_SPOT`.
   - When `enable_spot = true` and `enable_fallback = true`, this module launches two Grafana services (On-demand and Spot). When a 'placement failure' event is detected for `FARGATE_SPOT`, the `FARGATE` service sets the amount of `tasks` to `var.desired_number_of_tasks`.
+- Grafana Image Renderer allows for rendering images of panels on any dashboard.
+  - Currently using minimal resources, this could be insufficent when rendering multiple images in parralel. 
 
 ## Example
 
