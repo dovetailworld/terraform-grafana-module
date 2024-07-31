@@ -24,7 +24,7 @@ variable "public_subnet_ids" {
 }
 
 variable "service_name" {
-  description = "The name of the ECS service."
+  description = "The name of the Grafana ECS service."
   type        = string
   default     = "grafana"
 }
@@ -35,56 +35,68 @@ variable "platform_version" {
   default     = "LATEST"
 }
 
-variable "image" {
-  description = "The Docker image to run."
+variable "grafana_image" {
+  description = "The Docker image for Grafana to run."
   type        = string
   default     = "grafana/grafana-oss"
 }
 
-variable "image_version" {
-  description = "Which version (AKA tag) of the var.image Docker image to deploy."
+variable "grafana_version" {
+  description = "Which version (AKA tag) of the var.grafana_image to deploy."
   type        = string
   default     = "11.1.0"
 }
 
-variable "container_port" {
-  description = "The port number on which this service's Docker container accepts incoming HTTP or HTTPS traffic."
+variable "renderer_image" {
+  description = "The Docker image for Renderer to run."
+  type        = string
+  default     = "grafana/grafana-image-renderer"
+}
+
+variable "renderer_version" {
+  description = "Which version (AKA tag) of the var.renderer_image to deploy."
+  type        = string
+  default     = "3.11.1"
+}
+
+variable "grafana_container_port" {
+  description = "The port number on which the Grafana container accepts incoming HTTP or HTTPS traffic."
   type        = number
   default     = 3000
 }
 
-variable "root_url" {
+variable "grafana_root_url" {
   description = "The root URL for Grafana, if not set it might cause issues with OAuth."
   type        = string
   default     = "%(protocol)s://%(domain)s:%(http_port)s/"
 }
 
 variable "cloudwatch_log_group_name" {
-  description = "The name of the Cloudwatch log group where the application will send logs to."
+  description = "The name of the Cloudwatch log group where Grafana will send logs to."
   type        = string
   default     = "/ecs/grafana"
 }
 
 variable "cpu" {
-  description = "The number of CPU units to allocate to the ECS Service."
+  description = "The number of CPU units to allocate to the Grafana ECS Service."
   type        = number
   default     = 1024
 }
 
 variable "memory" {
-  description = "How much memory, in MB, to give the ECS Service."
+  description = "How much memory, in MB, to give the Grafana ECS Service."
   type        = number
   default     = 2048
 }
 
 variable "desired_number_of_tasks" {
-  description = "How many instances of the ECS Service to run across the ECS cluster."
+  description = "How many instances of the Grafana ECS Service to run across the ECS cluster."
   type        = number
   default     = 1
 }
 
 variable "allow_inbound_from_cidr_blocks" {
-  description = "A list of IP CIDR blocks allowed to access the service via the lb."
+  description = "A list of IP CIDR blocks allowed to access Grafana via the lb."
   type        = list(any)
   default     = ["0.0.0.0/0"]
 }
