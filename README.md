@@ -186,4 +186,5 @@ No modules.
 | <a name="output_efs_arn"></a> [efs\_arn](#output\_efs\_arn) | Output EFS ARN |
 | <a name="output_efs_id"></a> [efs\_id](#output\_efs\_id) | Output EFS ID |
 | <a name="output_efs_name"></a> [efs\_name](#output\_efs\_name) | Output EFS Name |
+| <a name="output_grafana_version"></a> [grafana\_version](#output\_grafana\_version) | Output the Grafana version |
 <!-- END_TF_DOCS -->

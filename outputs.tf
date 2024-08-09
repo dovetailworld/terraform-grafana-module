@@ -13,3 +13,7 @@ output "efs_name" {
   value       = aws_efs_file_system.this.name
 }
 
+output "grafana_version" {
+  description = "Output the Grafana version"
+  value       = var.grafana_version
+}
